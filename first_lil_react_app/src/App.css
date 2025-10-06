@@ -1,4 +1,18 @@
-.App {
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: space-between;
+  padding: 5rem;
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +49,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./TaskForm.module.css";
 
 function TaskForm({ onAddTask }) {
   const [title, setTitle] = useState("");
@@ -16,22 +17,22 @@ function TaskForm({ onAddTask }) {
   };
 
   return (
-    <form className="task-form" onSubmit={handleSubmit}>
-      <label htmlFor="task-title" className="task-form__label">
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <label htmlFor="task-title" className={styles.label}>
         Neue Aufgabe
       </label>
 
-      <div className="task-form__controls">
+      <div className={styles.controls}>
         <input
           id="task-title"
           type="text"
           value={title}
           placeholder="Was steht an?"
           onChange={(event) => setTitle(event.target.value)}
-          className="task-form__input"
+          className={styles.input}
         />
 
-        <button type="submit" className="task-form__button">
+        <button type="submit" className={styles.button}>
           Hinzufügen
         </button>
       </div>
