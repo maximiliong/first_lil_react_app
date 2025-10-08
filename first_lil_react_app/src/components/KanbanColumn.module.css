@@ -22,13 +22,20 @@
   color: #0f172a;
 }
 
-.count {
-  font-size: 0.875rem;
+.addButton {
+  font-size: 1rem;
   font-weight: 500;
   color: #6366f1;
   background-color: rgba(99, 102, 241, 0.12);
   border-radius: 999px;
-  padding: 0.25rem 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border: none;
+}
+
+.addButton:hover {
+  transition: 0.5s;
+  color: black;
+  background-color: red;
 }
 
 .emptyHint {

@@ -6,7 +6,7 @@ function KanbanColumn({ column, tasks, onToggleTask, onDeleteTask }) {
     <section className={styles.column}>
       <header className={styles.header}>
         <h2 className={styles.columnTitle}>{column.title}</h2>
-        <span className={styles.count}>{tasks.length}</span>
+        <button className={styles.addButton}>+</button>
       </header>
 
       {tasks.length === 0 ? (
