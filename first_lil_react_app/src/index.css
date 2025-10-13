@@ -43,3 +43,23 @@ code {
   white-space: nowrap;
   border: 0;
 }
+
+/* Modal base styles */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-dialog {
+  background: #ffffff;
+  border-radius: 12px;
+  width: min(90vw, 480px);
+  padding: 16px 20px;
+  box-sizing: border-box;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}

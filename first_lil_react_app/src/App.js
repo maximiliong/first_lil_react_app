@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import TaskForm from "./components/TaskForm";
 import KanbanColumn from "./components/KanbanColumn";
 
 const generateId = () => {
@@ -102,6 +101,52 @@ function App() {
     });
   };
 
+  // Move a task between columns (append or insert at index)
+  const handleMoveTask = (taskId, fromColumnId, toColumnId, toIndex = null) => {
+    setBoard((prev) => {
+      const fromCol = prev.columns[fromColumnId];
+      const toCol = prev.columns[toColumnId];
+      if (!fromCol || !toCol) return prev;
+
+      // If dropping into the same column and order stays the same, do nothing
+      const fromIds = [...fromCol.taskIds];
+      const toIds = fromColumnId === toColumnId ? fromIds : [...toCol.taskIds];
+
+      const currentIndex = fromIds.indexOf(taskId);
+      if (currentIndex === -1) return prev;
+
+      // Remove from source
+      fromIds.splice(currentIndex, 1);
+
+      // Determine insertion index
+      const insertAt = toIndex == null ? toIds.length : Math.max(0, Math.min(toIndex, toIds.length));
+
+      // If moving within same column, adjust target list after removal
+      if (fromColumnId === toColumnId) {
+        const adjustedIndex = insertAt > currentIndex ? insertAt - 1 : insertAt;
+        toIds.splice(adjustedIndex, 0, taskId);
+        return {
+          ...prev,
+          columns: {
+            ...prev.columns,
+            [toColumnId]: { ...toCol, taskIds: toIds },
+          },
+        };
+      }
+
+      // Moving across columns
+      toIds.splice(insertAt, 0, taskId);
+      return {
+        ...prev,
+        columns: {
+          ...prev.columns,
+          [fromColumnId]: { ...fromCol, taskIds: fromIds },
+          [toColumnId]: { ...toCol, taskIds: toIds },
+        },
+      };
+    });
+  };
+
   const orderedColumns = board.columnOrder
     .map((columnId) => board.columns[columnId])
     .filter(Boolean);
@@ -109,12 +154,10 @@ function App() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <h1>Mein Kanban-Board</h1>
+        <h1>My Kanban Board</h1>
       </header>
 
       <main className="app-content">
-        <TaskForm columns={orderedColumns} onAddTask={handleAddTask} />
-
         <div className="kanban-board">
           {orderedColumns.map((column) => {
             const tasks = column.taskIds
@@ -126,8 +169,10 @@ function App() {
                 key={column.id}
                 column={column}
                 tasks={tasks}
+                onAddTask={handleAddTask}
                 onToggleTask={handleToggleTask}
                 onDeleteTask={handleDeleteTask}
+                onMoveTask={handleMoveTask}
               />
             );
           })}
